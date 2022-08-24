@@ -35,7 +35,7 @@ LINEbot上に結果を表示させて、ユーザーの負担を減らす
 
 # 使用技術
 
-・Rails 6.1.6.
+・Rails 6.1.6.1
 ・LINE Messaging API
 
 # スケジュール
