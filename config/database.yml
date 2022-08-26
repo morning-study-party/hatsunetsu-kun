@@ -84,3 +84,6 @@ production:
   database: hatsunetsu_kun_production
   username: hatsunetsu_kun
   password: <%= ENV['HATSUNETSU_KUN_DATABASE_PASSWORD'] %>
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
