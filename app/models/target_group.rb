@@ -1,3 +1,3 @@
 class TargetGroup < ApplicationRecord
-    belongs_to :author
+    belongs_to :hospital
 end
