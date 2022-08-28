@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_26_021600) do
+ActiveRecord::Schema.define(version: 2022_08_28_142533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,8 +28,6 @@ ActiveRecord::Schema.define(version: 2022_08_26_021600) do
 
   create_table "hospitals", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "phone_number"
-    t.string "url"
     t.text "notification"
     t.integer "primary_care_doctor", default: 0, null: false
     t.string "address", null: false
@@ -38,6 +36,7 @@ ActiveRecord::Schema.define(version: 2022_08_26_021600) do
     t.float "longitud", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "contact", null: false
   end
 
   create_table "inspection_types", force: :cascade do |t|
