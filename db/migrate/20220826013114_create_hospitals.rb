@@ -2,7 +2,7 @@ class CreateHospitals < ActiveRecord::Migration[6.1]
   def change
     create_table :hospitals do |t|
       t.string :name, null: false
-      t.integer :phone_number, null: false
+      t.integer :phone_number
       t.string :url
       t.text :notification
       t.integer :primary_care_doctor, default: 0, null: false
