@@ -44,9 +44,9 @@ Naming/AccessorMethodName:
   Exclude:
     - "app/controllers/**/*"
 
-# 一行の長さは100字まで。コメントは制限しない
+# 一行の長さは120字まで。コメントは制限しない
 Metrics/LineLength:
-  Max: 100
+  Max: 120
   IgnoredPatterns: ['\A#']
   Exclude:
     - "db/migrate/*.rb"
