@@ -60,3 +60,9 @@ gem 'net-smtp'
 
 # display schema info at model files
 gem 'annotate'
+
+# Internationalization
+gem 'rails-i18n'
+
+# enum
+gem 'enum_help'
