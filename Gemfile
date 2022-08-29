@@ -75,3 +75,6 @@ gem 'rails-i18n'
 
 # enum
 gem 'enum_help'
+
+# 近くの病院検索
+gem 'geocoder'
