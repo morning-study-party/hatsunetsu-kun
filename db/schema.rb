@@ -10,19 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_28_142533) do
+ActiveRecord::Schema.define(version: 2022_08_31_023927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "business_hours", force: :cascade do |t|
-    t.string "open_at", null: false
-    t.string "close_at", null: false
     t.integer "meridian", default: 0, null: false
     t.integer "day_of_week", default: 0, null: false
     t.bigint "hospital_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.time "open_at", null: false
+    t.time "close_at", null: false
     t.index ["hospital_id"], name: "index_business_hours_on_hospital_id"
   end
 
@@ -36,7 +36,8 @@ ActiveRecord::Schema.define(version: 2022_08_28_142533) do
     t.float "longitud", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "contact", null: false
+    t.string "phone_number"
+    t.text "url"
   end
 
   create_table "inspection_types", force: :cascade do |t|
