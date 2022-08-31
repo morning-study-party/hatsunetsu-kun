@@ -62,9 +62,9 @@ end
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 # rails new実行時にnet-smtpがインストールされていないというエラーが発生したため追加。ruby3.1でnet-smtpがデフォルトから外されたことが原因。
+gem 'line-bot-api'
 gem 'net-imap'
 gem 'net-pop'
-gem 'line-bot-api'
 gem 'net-smtp'
 
 # display schema info at model files
