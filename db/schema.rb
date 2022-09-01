@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_31_023927) do
+ActiveRecord::Schema.define(version: 2022_09_01_142127) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,8 +36,8 @@ ActiveRecord::Schema.define(version: 2022_08_31_023927) do
     t.float "longitud", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "phone_number"
-    t.text "url"
+    t.string "phone_number", null: false
+    t.text "url", null: false
   end
 
   create_table "inspection_types", force: :cascade do |t|
