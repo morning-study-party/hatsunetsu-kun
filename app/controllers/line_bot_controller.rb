@@ -32,19 +32,11 @@ class LineBotController < ApplicationController
             }
             client.reply_message(event['replyToken'], message)
           end
-          if /COCOAの通知があり相談したい方/.match?(event.message['text'])
+          if /コロナまたはCOCOA通知について相談したい方/.match?(event.message['text'])
             message = {
               "type": 'text',
               "text": "COCOA通知がきて相談したい方は【東京都発熱相談センターCOCOA専用ダイヤル】で相談できます。
 [電話番号]000-0000-0000"
-            }
-            client.reply_message(event['replyToken'], message)
-          end
-          if /コロナについてご質問がある方/.match?(event.message['text'])
-            message = {
-              "type": 'text',
-              "text": "新型コロナに対して不安に思う方は【新型コロナ・オミクロン株コールセンター】で相談ができます。
-[電話番号]0570-550571"
             }
             client.reply_message(event['replyToken'], message)
           end
