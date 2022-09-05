@@ -19,5 +19,5 @@
 #  fk_rails_...  (hospital_id => hospitals.id)
 #
 class InspectionType < ApplicationRecord
-	belongs_to :hospital
+  belongs_to :hospital
 end

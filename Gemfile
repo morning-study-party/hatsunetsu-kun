@@ -75,3 +75,6 @@ gem 'rails-i18n'
 
 # enum
 gem 'enum_help'
+
+# 緯度・経度の取得
+gem 'geocoder'
