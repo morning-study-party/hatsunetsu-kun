@@ -71,6 +71,16 @@ class LineBotController < ApplicationController
           if /5/.match?(event.message['text'])
             client.reply_message(event['replyToken'], template)
           end
+        when Line::Bot::Event::MessageType::Location
+          latitude = event["message"]["latitude"]
+          longitude = event["message"]["longitude"]
+          user_address = Geocoder.search([latitude,  longitude])
+          user_location = Hospital.create!(name: 'ユーザー現在地', address: user_address.first.address, phone_number:'090', url: 'url', latitude: latitude, longitude: longitude)
+          near_hospitals = user_location.nearbys(5, units: :km)
+          message = near_hospitals.map{|hospital| "#{hospital.name}" }.join("\n")
+          client.reply_message(event['replyToken'],{ type: 'text', text: message })
+          user_location.delete!
+        end
       end
     end
     head :ok
