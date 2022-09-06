@@ -20,7 +20,7 @@
 #
 class InspectionType < ApplicationRecord
   belongs_to :hospital
-	enum pcr: { unavailable: 0, available: 1}, _prefix: true
-	enum qualitative_antigen_test: { unavailable: 0, available: 1}, _prefix: true
-	enum quantitative_inspection: { unavailable: 0, available: 1}, _prefix: true
+  enum pcr: { unavailable: 0, available: 1 }, _prefix: true
+  enum qualitative_antigen_test: { unavailable: 0, available: 1 }, _prefix: true
+  enum quantitative_inspection: { unavailable: 0, available: 1 }, _prefix: true
 end

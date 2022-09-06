@@ -20,7 +20,7 @@
 #
 class TargetGroup < ApplicationRecord
   belongs_to :hospital
-  enum pregnant: { unavailable: 0, available: 1}, _prefix: true
-	enum someone_who_has_had_close_contact: { unavailable: 0, available: 1}, _prefix: true
-	enum child: { unavailable: 0, available: 1}, _prefix: true
+  enum pregnant: { unavailable: 0, available: 1 }, _prefix: true
+  enum someone_who_has_had_close_contact: { unavailable: 0, available: 1 }, _prefix: true
+  enum child: { unavailable: 0, available: 1 }, _prefix: true
 end
