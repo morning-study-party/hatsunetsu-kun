@@ -75,3 +75,6 @@ gem 'rails-i18n'
 
 # enum
 gem 'enum_help'
+
+# seed
+gem 'seed-fu'
