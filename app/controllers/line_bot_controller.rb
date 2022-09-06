@@ -69,13 +69,8 @@ class LineBotController < ApplicationController
             client.reply_message(event['replyToken'], message)
           end
           if /5/.match?(event.message['text'])
-            message = {
-              "type": 'text',
-              "text": '診療可能な病院が○件見つかりました'
-            }
-            client.reply_message(event['replyToken'], message)
+            client.reply_message(event['replyToken'], template)
           end
-        end
       end
     end
     head :ok
@@ -88,5 +83,24 @@ class LineBotController < ApplicationController
       config.channel_secret = Rails.application.credentials.dig(:line, :channel_secret)
       config.channel_token = Rails.application.credentials.dig(:line, :channel_token)
     end
+  end
+
+    def template
+  {
+      "type": "template",
+      "altText": "位置検索中",
+      "template": {
+          "type": "buttons",
+          "title": "最寄駅探索探索",
+          "text": "現在の位置を送信しますか？",
+          "actions": [
+              {
+                "type": "uri",
+                "label": "位置を送る",
+                "uri": "line://nv/location"
+              }
+          ]
+      }
+    }
   end
 end
