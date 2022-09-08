@@ -21,4 +21,6 @@ class Hospital < ApplicationRecord
   has_many :business_hours
   has_one :target_group
   has_one :inspection_type
+  enum primary_care_doctor: { only_regular: 0, all_patients: 1 }
+  enum holiday_support: { closed: 0, open: 1, no_information: 2 }
 end
