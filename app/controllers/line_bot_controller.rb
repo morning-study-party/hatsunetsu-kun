@@ -11,10 +11,6 @@ class LineBotController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          message = {
-            type: 'text',
-            text: event.message['text']
-          }
           if /移動手段（かかりつけ医がいる方）/.match?(event.message['text'])
             message = {
               "type": 'text',
