@@ -68,13 +68,17 @@ class LineBotController < ApplicationController
             }
             client.reply_message(event['replyToken'], message)
           end
-          if /5/.match?(event.message['text'])
-            message = {
-              "type": 'text',
-              "text": '診療可能な病院が○件見つかりました'
-            }
-            client.reply_message(event['replyToken'], message)
-          end
+          client.reply_message(event['replyToken'], template) if /5/.match?(event.message['text'])
+        when Line::Bot::Event::MessageType::Location
+          latitude = event['message']['latitude']
+          longitude = event['message']['longitude']
+          user_address = Geocoder.search([latitude, longitude])
+          user_location = Hospital.create!(name: 'ユーザー現在地', address: user_address.first.address, phone_number: '090',
+                                           url: 'url', latitude:, longitude:)
+          near_hospitals = user_location.nearbys(5, units: :km)
+          message = near_hospitals.map { |hospital| hospital.name.to_s }.join("\n")
+          client.reply_message(event['replyToken'], { type: 'text', text: message })
+          user_location.delete!
         end
       end
     end
@@ -88,5 +92,24 @@ class LineBotController < ApplicationController
       config.channel_secret = Rails.application.credentials.dig(:line, :channel_secret)
       config.channel_token = Rails.application.credentials.dig(:line, :channel_token)
     end
+  end
+
+  def template
+    {
+      "type": 'template',
+      "altText": '位置検索中',
+      "template": {
+        "type": 'buttons',
+        "title": '最寄駅探索探索',
+        "text": '現在の位置を送信しますか？',
+        "actions": [
+          {
+            "type": 'uri',
+            "label": '位置を送る',
+            "uri": 'line://nv/location'
+          }
+        ]
+      }
+    }
   end
 end
