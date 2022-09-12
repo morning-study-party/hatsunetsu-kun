@@ -3,9 +3,9 @@
 # Table name: target_groups
 #
 #  id                                :bigint           not null, primary key
-#  child                             :integer          default(0), not null
-#  pregnant                          :integer          default(0), not null
-#  someone_who_has_had_close_contact :integer          default(0), not null
+#  child                             :integer          default("unavailable"), not null
+#  pregnant                          :integer          default("unavailable"), not null
+#  someone_who_has_had_close_contact :integer          default("unavailable"), not null
 #  created_at                        :datetime         not null
 #  updated_at                        :datetime         not null
 #  hospital_id                       :bigint
