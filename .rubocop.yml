@@ -58,13 +58,13 @@ Metrics/MethodLength:
 
 # ABC sizeは緩めにする
 Metrics/AbcSize:
-  Max: 55 # default 15
+  Max: 75 # default 15
 
 CyclomaticComplexity:
-  Max: 11
+  Max: 15
 
 PerceivedComplexity:
-  Max: 11
+  Max: 12
 
 Metrics/BlockLength:
   Max: 70
