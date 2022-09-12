@@ -81,3 +81,6 @@ gem 'geocoder'
 
 # 管理画面
 gem 'rails_admin'
+
+# authentication
+gem 'sorcery'
