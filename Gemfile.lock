@@ -216,6 +216,9 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    seed-fu (2.3.9)
+      activerecord (>= 3.1)
+      activesupport (>= 3.1)
     semantic_range (3.0.0)
     spring (4.0.0)
     sprockets (4.1.1)
@@ -251,6 +254,7 @@ GEM
     zeitwerk (2.6.0)
 
 PLATFORMS
+  x86_64-darwin-20
   x86_64-darwin-21
   x86_64-linux
 
@@ -280,6 +284,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   sass-rails (>= 6)
+  seed-fu
   spring
   turbolinks (~> 5)
   tzinfo-data
