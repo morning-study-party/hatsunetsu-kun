@@ -339,8 +339,8 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   sass-rails (>= 6)
-  sorcery
   seed-fu
+  sorcery
   spring
   turbolinks (~> 5)
   tzinfo-data
