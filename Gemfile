@@ -84,3 +84,6 @@ gem 'rails_admin'
 
 # authentication
 gem 'sorcery'
+
+# seed
+gem 'seed-fu'
