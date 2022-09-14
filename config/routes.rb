@@ -5,7 +5,5 @@ Rails.application.routes.draw do
   post 'callback' => 'line_bot#callback'
   get 'login' => 'user_sessions#new'
   post 'login' => 'user_sessions#create'
-  #logoutのHTTPメソッドをGETにしているのは、rails_adminで作成した管理画面のビューファイルがgemの内部にあるため、ログアウトボタンを配置するのが困難なため。
-  #これによって、/logoutにGETでアクセスすることでログアウトが可能になる。
-  get 'logout' => 'user_sessions#destroy'
+  delete 'logout' => 'user_sessions#destroy'
 end
