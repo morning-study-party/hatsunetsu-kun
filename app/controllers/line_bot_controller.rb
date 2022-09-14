@@ -60,10 +60,10 @@ class LineBotController < ApplicationController
           user_location = Hospital.create!(name: 'ユーザー現在地', address: user_address.first.address, phone_number: '090',
                                            url: 'url', latitude:, longitude:)
           near_hospitals = user_location.nearbys(5, units: :km)
-                    if near_hospitals.nil?
-                      message = '近くに病院がありません'
+          message = if near_hospitals.nil?
+                      '近くに病院がありません'
                     else
-                      message = near_hospitals.map { |hospital| hospital.name.to_s }.join("\n")
+                      near_hospitals.map { |hospital| hospital.name.to_s }.join("\n")
                     end
           client.reply_message(event['replyToken'], { type: 'text', text: message })
           user_location.destroy!
