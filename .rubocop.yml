@@ -64,7 +64,7 @@ CyclomaticComplexity:
   Max: 15
 
 PerceivedComplexity:
-  Max: 12
+  Max: 15
 
 Metrics/BlockLength:
   Max: 70
