@@ -46,7 +46,7 @@ Naming/AccessorMethodName:
 
 # 一行の長さは120字まで。コメントは制限しない
 Metrics/LineLength:
-  Max: 120
+  Max: 125
   IgnoredPatterns: ['\A#']
   Exclude:
     - "db/migrate/*.rb"
