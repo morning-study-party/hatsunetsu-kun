@@ -7,12 +7,12 @@ require:
 
 AllCops:
   Exclude:
-    - 'tmp/**/*'
-    - 'vendor/**/*'
-    - 'db/**/*'
-    - 'bin/**/*'
-    - 'spec/**/*'
-    - 'node_modules/**/*'
+    - "tmp/**/*"
+    - "vendor/**/*"
+    - "db/**/*"
+    - "bin/**/*"
+    - "spec/**/*"
+    - "node_modules/**/*"
   DisplayCopNames: true
 
 # 日本語でのコメントを許可
@@ -68,3 +68,6 @@ PerceivedComplexity:
 
 Metrics/BlockLength:
   Max: 70
+
+ClassLength:
+  Max: 105
