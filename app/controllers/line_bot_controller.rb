@@ -62,7 +62,12 @@ class LineBotController < ApplicationController
           near_hospitals = user_location.nearbys(5, units: :km)
           message = near_hospitals.map { |hospital| hospital.name.to_s }.join("\n")
           client.reply_message(event['replyToken'], { type: 'text', text: message })
-          user_location.delete!
+          {
+            type: 'flex',
+            altText: '病院検索の結果です。',
+            contents: set_carousel(near_hospitals)
+          }
+          user_location.delete
         end
       end
     end
@@ -94,6 +99,89 @@ class LineBotController < ApplicationController
           }
         ]
       }
+    }
+  end
+
+  def set_bubble(hospital)
+    {
+      type: 'bubble',
+      body: set_body(hospital),
+
+    }
+  end
+  def set_carousel(near_hospitals)
+    bubbles = []
+    near_hospitals.each do |hospital|
+      bubbles.push set_bubble(hospital)
+    end
+    {
+      type: 'carousel',
+      contents: bubbles
+    }
+  end
+  def set_body(hospital)
+    {
+      type: 'box',
+      layout: 'vertical',
+      contents: [
+        {
+          type: 'text',
+          text: hospital['hospitallName'],
+          wrap: true,
+          weight: 'bold',
+          size: 'md'
+        },
+        {
+          type: 'box',
+          layout: 'vertical',
+          margin: 'lg',
+          spacing: 'sm',
+          contents: [
+            {
+              type: 'box',
+              layout: 'baseline',
+              spacing: 'sm',
+              contents: [
+                {
+                  type: 'text',
+                  text: '住所',
+                  color: '#aaaaaa',
+                  size: 'sm',
+                  flex: 1
+                },
+                {
+                  type: 'text',
+                  text: hospital.address,
+                  wrap: true,
+                  color: '#666666',
+                  size: 'sm',
+                  flex: 5
+                }
+              ]
+            },
+            {
+              type: 'box',
+              layout: 'baseline',
+              spacing: 'sm',
+              contents: [
+                {
+                  type: 'text',
+                  color: '#aaaaaa',
+                  size: 'sm',
+                  flex: 1
+                },
+                {
+                  type: 'text',
+                  wrap: true,
+                  color: '#666666',
+                  size: 'sm',
+                  flex: 5
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   end
 end

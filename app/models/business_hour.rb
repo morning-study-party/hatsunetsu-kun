@@ -4,8 +4,8 @@
 #
 #  id          :bigint           not null, primary key
 #  close_at    :time             not null
-#  day_of_week :integer          default(0), not null
-#  meridian    :integer          default(0), not null
+#  day_of_week :integer          default("Monday"), not null
+#  meridian    :integer          default("am"), not null
 #  open_at     :time             not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
