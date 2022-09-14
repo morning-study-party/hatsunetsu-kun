@@ -62,12 +62,12 @@ class LineBotController < ApplicationController
           near_hospitals = user_location.nearbys(5, units: :km)
           message = near_hospitals.map { |hospital| hospital.name.to_s }.join("\n")
           client.reply_message(event['replyToken'], { type: 'text', text: message })
+          user_location.delete
           {
             type: 'flex',
-            altText: '病院検索の結果です。',
+            altText: '病院検索の結果です',
             contents: set_carousel(near_hospitals)
           }
-          user_location.delete
         end
       end
     end
@@ -105,10 +105,11 @@ class LineBotController < ApplicationController
   def set_bubble(hospital)
     {
       type: 'bubble',
-      body: set_body(hospital),
+      body: set_body(hospital)
 
     }
   end
+
   def set_carousel(near_hospitals)
     bubbles = []
     near_hospitals.each do |hospital|
@@ -119,6 +120,7 @@ class LineBotController < ApplicationController
       contents: bubbles
     }
   end
+
   def set_body(hospital)
     {
       type: 'box',
