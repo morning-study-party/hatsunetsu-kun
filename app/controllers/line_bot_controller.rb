@@ -45,7 +45,7 @@ class LineBotController < ApplicationController
             client.reply_message(event['replyToken'], message)
           end
           if /診療可能な病院を探す/.match?(event.message['text'])
-            LineUser.create!(line_user_id: params[:events][0][:source][:userId])
+            LineUser.create!(line_user_id: params[:events][0][:source][:userId]) if LineUser.find_by(line_user_id: params[:events][0][:source][:userId]) == nil
             message = {
               "type": 'text',
               "text": "【該当の番号を、入力してメッセージで送信してください】
