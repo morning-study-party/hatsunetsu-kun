@@ -45,6 +45,7 @@ class LineBotController < ApplicationController
             client.reply_message(event['replyToken'], message)
           end
           if /診療可能な病院を探す/.match?(event.message['text'])
+            LineUser.create!(line_user_id: params[:events][0][:source][:userId])
             message = {
               "type": 'text',
               "text": "【該当の番号を、入力してメッセージで送信してください】
@@ -64,17 +65,51 @@ class LineBotController < ApplicationController
             }
             client.reply_message(event['replyToken'], message)
           end
-          client.reply_message(event['replyToken'], template) if /5/.match?(event.message['text'])
+          if /5/.match?(event.message['text'])
+            user = LineUser.find_by(line_user_id: params[:events][0][:source][:userId])
+            user.update!(select_type: 5)
+            client.reply_message(event['replyToken'], template)
+          end
+          if /4/.match?(event.message['text'])
+            user = LineUser.find_by(line_user_id: params[:events][0][:source][:userId])
+            user.update!(select_type: 4)
+            client.reply_message(event['replyToken'], template)
+          end
+          if /3/.match?(event.message['text'])
+            user = LineUser.find_by(line_user_id: params[:events][0][:source][:userId])
+            user.select_type = 3
+            user.update!
+            client.reply_message(event['replyToken'], template)
+          end
         when Line::Bot::Event::MessageType::Location
+          current_user = LineUser.find_by(line_user_id: params[:events][0][:source][:userId])
           latitude = event['message']['latitude']
           longitude = event['message']['longitude']
           user_address = Geocoder.search([latitude, longitude])
           user_location = Hospital.create!(name: 'ユーザー現在地', address: user_address.first.address, phone_number: '090',
                                            url: 'url', latitude:, longitude:)
-          near_hospitals = user_location.nearbys(5, units: :km)
-          message = near_hospitals.map { |hospital| hospital.name.to_s }.join("\n")
-          client.reply_message(event['replyToken'], { type: 'text', text: message })
-          user_location.delete!
+          near_hospitals = user_location.nearbys(5, units: :km).limit(5)
+          if current_user.select_type == 5
+            message = near_hospitals.map { |hospital| hospital.name.to_s }.join("\n")
+            client.reply_message(event['replyToken'], { type: 'text', text: message })
+          elsif current_user.select_type == 4
+            near_hospitals_child = []
+            near_hospitals.each do |hospital|
+              unless hospital.target_group == nil
+                near_hospitals_child.push(hospital) if hospital.target_group.child == 'available'
+              end
+            end
+            message = near_hospitals_child.map { |hospital| hospital.name.to_s }.join("\n")
+            client.reply_message(event['replyToken'], { type: 'text', text: message })
+          else
+            near_hospitals_pregnant = []
+            near_hospitals.each do |hospital|
+              near_hospitals_pregnantd.push(hospital) if hospital.target_group.pregnant == 'available'
+            end
+            message = near_hospitals_pregnant.map { |hospital| hospital.name.to_s }.join("\n")
+            client.reply_message(event['replyToken'], { type: 'text', text: message })
+          end
+          user_location.destroy!
         end
       end
     end
@@ -96,7 +131,7 @@ class LineBotController < ApplicationController
       "altText": '位置検索中',
       "template": {
         "type": 'buttons',
-        "title": '最寄駅探索探索',
+        "title": '近くの病院を探す',
         "text": '現在の位置を送信しますか？',
         "actions": [
           {
