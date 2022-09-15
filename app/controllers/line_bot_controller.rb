@@ -61,7 +61,7 @@ class LineBotController < ApplicationController
                                            url: 'url', latitude:, longitude:)
           near_hospitals = user_location.nearbys(5, units: :km)
           message = if near_hospitals.empty?
-            { type: 'text', text: '近くに病院がありません'}
+                      { type: 'text', text: '近くに病院がありません。条件を変えて再検索してください' }
                     else
                       {
                         type: 'flex',
@@ -71,7 +71,8 @@ class LineBotController < ApplicationController
                     end
           client.reply_message(event['replyToken'], message)
           require 'json'
-          puts message.to_json
+          Rails.logger.debug message.to_json
+          user_location.destroy!
         end
       end
     end
