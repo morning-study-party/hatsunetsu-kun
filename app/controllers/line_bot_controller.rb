@@ -45,7 +45,9 @@ class LineBotController < ApplicationController
             client.reply_message(event['replyToken'], message)
           end
           if /診療可能な病院を探す/.match?(event.message['text'])
-            LineUser.create!(line_user_id: params[:events][0][:source][:userId]) if LineUser.find_by(line_user_id: params[:events][0][:source][:userId]) == nil
+            if LineUser.find_by(line_user_id: params[:events][0][:source][:userId]).nil?
+              LineUser.create!(line_user_id: params[:events][0][:source][:userId])
+            end
             message = {
               "type": 'text',
               "text": "【該当の番号を、入力してメッセージで送信してください】
@@ -89,26 +91,17 @@ class LineBotController < ApplicationController
           user_location = Hospital.create!(name: 'ユーザー現在地', address: user_address.first.address, phone_number: '090',
                                            url: 'url', latitude:, longitude:)
           near_hospitals = user_location.nearbys(5, units: :km).limit(5)
-          if current_user.select_type == 5
+          case current_user.select_type
+          when 5
             message = near_hospitals.map { |hospital| hospital.name.to_s }.join("\n")
-            client.reply_message(event['replyToken'], { type: 'text', text: message })
-          elsif current_user.select_type == 4
-            near_hospitals_child = []
-            near_hospitals.each do |hospital|
-              unless hospital.target_group == nil
-                near_hospitals_child.push(hospital) if hospital.target_group.child == 'available'
-              end
-            end
+          when 4
+            near_hospitals_child = near_hospitals.select { |hospital| hospital.target_group.child == 'available' }
             message = near_hospitals_child.map { |hospital| hospital.name.to_s }.join("\n")
-            client.reply_message(event['replyToken'], { type: 'text', text: message })
           else
-            near_hospitals_pregnant = []
-            near_hospitals.each do |hospital|
-              near_hospitals_pregnantd.push(hospital) if hospital.target_group.pregnant == 'available'
-            end
+            near_hospitals_pregnant = near_hospitals.select { |hospital| hospital.target_group.pregnant == 'available' }
             message = near_hospitals_pregnant.map { |hospital| hospital.name.to_s }.join("\n")
-            client.reply_message(event['replyToken'], { type: 'text', text: message })
           end
+          client.reply_message(event['replyToken'], { type: 'text', text: message })
           user_location.destroy!
         end
       end
