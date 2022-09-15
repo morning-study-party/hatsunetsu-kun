@@ -175,7 +175,7 @@ class LineBotController < ApplicationController
                 {
                   type: 'text',
                   # 下を書き足す。typeでtextを指定しているのに、対応しているtextが存在していないのがおそらく原因。
-                  text: 'hogehoge',
+                  text: '電話番号',
                   color: '#aaaaaa',
                   size: 'sm',
                   flex: 1
@@ -183,7 +183,7 @@ class LineBotController < ApplicationController
                 {
                   type: 'text',
                   # 同様に下を書き足す
-                  text: 'fugafuga',
+                  text: hospital.phone_number,
                   wrap: true,
                   color: '#666666',
                   size: 'sm',
