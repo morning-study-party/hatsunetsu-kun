@@ -61,17 +61,17 @@ class LineBotController < ApplicationController
                                            url: 'url', latitude:, longitude:)
           near_hospitals = user_location.nearbys(5, units: :km)
           message = if near_hospitals.empty?
-                      '近くに病院がありません'
+            { type: 'text', text: '近くに病院がありません'}
                     else
-                      near_hospitals.map { |hospital| hospital.name.to_s }.join("\n")
+                      {
+                        type: 'flex',
+                        altText: '病院検索の結果です',
+                        contents: set_carousel(near_hospitals)
+                      }
                     end
-          client.reply_message(event['replyToken'], { type: 'text', text: message })
-          user_location.destroy!
-          {
-            type: 'flex',
-            altText: '病院検索の結果です',
-            contents: set_carousel(near_hospitals)
-          }
+          client.reply_message(event['replyToken'], message)
+          require 'json'
+          puts message.to_json
         end
       end
     end
@@ -132,7 +132,8 @@ class LineBotController < ApplicationController
       contents: [
         {
           type: 'text',
-          text: hospital['hospitallName'],
+          # 下もhospital.nameに書き換える
+          text: hospital.name,
           wrap: true,
           weight: 'bold',
           size: 'md'
@@ -172,12 +173,16 @@ class LineBotController < ApplicationController
               contents: [
                 {
                   type: 'text',
+                  # 下を書き足す。typeでtextを指定しているのに、対応しているtextが存在していないのがおそらく原因。
+                  text: 'hogehoge',
                   color: '#aaaaaa',
                   size: 'sm',
                   flex: 1
                 },
                 {
                   type: 'text',
+                  # 同様に下を書き足す
+                  text: 'fugafuga',
                   wrap: true,
                   color: '#666666',
                   size: 'sm',
