@@ -67,8 +67,7 @@ class LineBotController < ApplicationController
           end
           if /3/.match?(event.message['text'])
             user = LineUser.find_by(line_user_id: params[:events][0][:source][:userId])
-            user.select_type = 3
-            user.update!
+            user.update!(select_type: 3)
             client.reply_message(event['replyToken'], template)
           end
         when Line::Bot::Event::MessageType::Location
@@ -78,7 +77,7 @@ class LineBotController < ApplicationController
           user_address = Geocoder.search([latitude, longitude])
           user_location = Hospital.create!(name: 'ユーザー現在地', address: user_address.first.address, phone_number: '090',
                                            url: 'url', latitude:, longitude:)
-          near_hospitals = user_location.nearbys(5, units: :km).limit(5)
+          near_hospitals = user_location.nearbys(5, units: :km).limit(10).all_patients
           message = { type: 'text', text: '近くに病院がありません。条件を変えて再検索してください' } if near_hospitals.empty?
           case current_user.select_type
           when 5
@@ -94,7 +93,7 @@ class LineBotController < ApplicationController
               altText: '病院検索の結果です',
               contents: set_carousel(near_hospitals_childs)
             }
-          else
+          when 3
             near_hospitals_pregnants = near_hospitals.select do |hospital|
               hospital.target_group.pregnant == 'available'
             end
