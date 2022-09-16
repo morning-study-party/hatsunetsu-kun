@@ -133,7 +133,6 @@ class LineBotController < ApplicationController
       contents: [
         {
           type: 'text',
-          # 下もhospital.nameに書き換える
           text: hospital.name,
           wrap: true,
           weight: 'bold',
@@ -174,7 +173,6 @@ class LineBotController < ApplicationController
               contents: [
                 {
                   type: 'text',
-                  # 下を書き足す。typeでtextを指定しているのに、対応しているtextが存在していないのがおそらく原因。
                   text: '電話番号',
                   color: '#aaaaaa',
                   size: 'sm',
@@ -182,7 +180,6 @@ class LineBotController < ApplicationController
                 },
                 {
                   type: 'text',
-                  # 同様に下を書き足す
                   text: hospital.phone_number,
                   wrap: true,
                   color: '#666666',
