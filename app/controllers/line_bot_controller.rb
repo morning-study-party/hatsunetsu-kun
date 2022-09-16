@@ -78,30 +78,33 @@ class LineBotController < ApplicationController
           user_location = Hospital.create!(name: 'ユーザー現在地', address: user_address.first.address, phone_number: '090',
                                            url: 'url', latitude:, longitude:)
           near_hospitals = user_location.nearbys(5, units: :km).limit(10).all_patients
-          message = { type: 'text', text: '近くに病院がありません。条件を変えて再検索してください' } if near_hospitals.empty?
-          case current_user.select_type
-          when 5
-            message = {
-              type: 'flex',
-              altText: '病院検索の結果です',
-              contents: set_carousel(near_hospitals)
-            }
-          when 4
-            near_hospitals_childs = near_hospitals.select { |hospital| hospital.target_group.child == 'available' }
-            message = {
-              type: 'flex',
-              altText: '病院検索の結果です',
-              contents: set_carousel(near_hospitals_childs)
-            }
-          when 3
-            near_hospitals_pregnants = near_hospitals.select do |hospital|
-              hospital.target_group.pregnant == 'available'
+          if near_hospitals.empty?
+            message = { type: 'text', text: '近くに病院がありません。条件を変えて再検索してください' }
+          else
+            case current_user.select_type
+            when 5
+              message = {
+                type: 'flex',
+                altText: '病院検索の結果です',
+                contents: set_carousel(near_hospitals)
+              }
+            when 4
+              near_hospitals_childs = near_hospitals.select { |hospital| hospital.target_group.child == 'available' }
+              message = {
+                type: 'flex',
+                altText: '病院検索の結果です',
+                contents: set_carousel(near_hospitals_childs)
+              }
+            when 3
+              near_hospitals_pregnants = near_hospitals.select do |hospital|
+                hospital.target_group.pregnant == 'available'
+              end
+              message = {
+                type: 'flex',
+                altText: '病院検索の結果です',
+                contents: set_carousel(near_hospitals_pregnants)
+              }
             end
-            message = {
-              type: 'flex',
-              altText: '病院検索の結果です',
-              contents: set_carousel(near_hospitals_pregnants)
-            }
           end
           client.reply_message(event['replyToken'], message)
           user_location.destroy!
