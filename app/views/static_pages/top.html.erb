@@ -1,6 +1,36 @@
-<div class="text-center">
-  <h1 class="text-5xl text-indigo-600 m-10 font-bold">東京発熱案内くん</h1>
+<div class="text-center m-10">
+  <h1 class="text-5xl text-indigo-600 font-bold">東京発熱案内くん</h1>
+  <div class="flex justify-center">
+    <%= image_tag 'logo.png' %>
+  </div>
   <%= link_to 'https://line.me/R/ti/p/@157iynnd', class: 'flex justify-center' do %>
+    <%= image_tag 'https://scdn.line-apps.com/n/line_add_friends/btn/ja.png', alt: '友だち追加' %>
+  <% end %>
+  <h2 class="text-3xl my-8">【使い方】</h2>
+  <div class="text-2xl">
+    <div class="my-3">
+      <p>※現在開発中につき、機能が万全ではありません。ご容赦いただけますと幸いです</p>
+      <p>LINE botの案内に沿ってボタンを押すだけで必要な情報をご案内します！</p>
+      <p>以下の選択肢に沿ってご案内します</p>
+    </div>
+    <div class="my-8">
+      <div class="my-3">
+      <p class="font-bold">1.診療可能な病院を探す</p>
+      <p>急な発熱時に5キロ圏内の営業中の医療機関をご案内します</p>
+      <p>診療のご予約は医療機関の連絡先情報からご連絡ください</p>
+    </div>
+    <div class="my-3">
+      <p class="font-bold">2.移動手段(かかりつけ医がいる方)</p>
+      <p>かかりつけ医がおり、診療の予約をされている方が対象です</p>
+      <p>移動時の注意事項などをご確認いただけます</p>
+      <p>救急車を呼ぶべきか迷う場合も判断基準をご確認いただけます</p>
+    </div>
+    <div class="my-3">
+      <p class="font-bold">3.コロナまたはCOCOA通知について質問したい方</p>
+      <p>お問合せ窓口の連絡先をご案内します</p>
+    </div>
+  </div>
+  <%= link_to 'https://line.me/R/ti/p/@157iynnd', class: 'flex justify-center my-10' do %>
     <%= image_tag 'https://scdn.line-apps.com/n/line_add_friends/btn/ja.png', alt: '友だち追加' %>
   <% end %>
 </div>
