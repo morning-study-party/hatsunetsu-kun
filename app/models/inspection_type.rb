@@ -3,9 +3,9 @@
 # Table name: inspection_types
 #
 #  id                       :bigint           not null, primary key
-#  pcr                      :integer          default(0), not null
-#  qualitative_antigen_test :integer          default(0), not null
-#  quantitative_inspection  :integer          default(0), not null
+#  pcr                      :integer          default("unavailable"), not null
+#  qualitative_antigen_test :integer          default("unavailable"), not null
+#  quantitative_inspection  :integer          default("unavailable"), not null
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  hospital_id              :bigint
