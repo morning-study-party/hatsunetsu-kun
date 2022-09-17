@@ -67,6 +67,15 @@ ActiveRecord::Schema.define(version: 2022_09_15_131731) do
     t.index ["hospital_id"], name: "index_target_groups_on_hospital_id", unique: true
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "email", null: false
+    t.string "crypted_password"
+    t.string "salt"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
   add_foreign_key "business_hours", "hospitals"
   add_foreign_key "inspection_types", "hospitals"
   add_foreign_key "target_groups", "hospitals"

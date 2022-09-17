@@ -79,5 +79,11 @@ gem 'enum_help'
 # 緯度・経度の取得
 gem 'geocoder'
 
+# 管理画面
+gem 'rails_admin'
+
+# authentication
+gem 'sorcery'
+
 # seed
 gem 'seed-fu'
