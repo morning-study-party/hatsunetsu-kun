@@ -19,19 +19,19 @@ class LineBotController < ApplicationController
                       \n自家用車でのご移動をお願いします
                       \n2.自家用車がない場合
                       \n発熱タクシー（有料）をご検討ください
-                      \n発熱タクシーのURL
+                      \nhttps://www.kaigotaxi-haisha.com/service/detail/id=102
                       \n3.公共交通機関を利用の場合
                       \nもし公共交通機関を利用する場合は感染対策を徹底して人と距離をとり移動すること
                       \n4.上記の移動手段が困難な場合
                       \n救急車をご検討ください。救急車を呼ぶか迷った場合はこちらを参照ください。
-                      \n参考記事のurl"
+                      \nhttps://www.tfd.metro.tokyo.lg.jp/tfd/hp-kyuuimuka/guide/main/index.html"
             }
             client.reply_message(event['replyToken'], message)
           end
           if /コロナまたはCOCOA通知について相談したい方/.match?(event.message['text'])
             message = {
               "type": 'text',
-              "text": "COCOA通知がきて相談したい方は【東京都発熱相談センターCOCOA専用ダイヤル】で相談できます。\n[電話番号]000-0000-0000
+              "text": "COCOA通知がきて相談したい方は【東京都発熱相談センターCOCOA専用ダイヤル】で相談できます。\nhttps://covid19.supportnavi.metro.tokyo.lg.jp/service/EDp1nr1qF93oYS5J
                       \n新型コロナに対して不安に思う方は【新型コロナ・オミクロン株コールセンター】で相談ができます。\n[電話番号]0570-550571"
             }
             client.reply_message(event['replyToken'], message)
