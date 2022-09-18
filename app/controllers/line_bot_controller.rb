@@ -37,6 +37,9 @@ class LineBotController < ApplicationController
             client.reply_message(event['replyToken'], message)
           end
           if /診療可能な病院を探す/.match?(event.message['text'])
+            if LineUser.find_by(line_user_id: params[:events][0][:source][:userId]).nil?
+              LineUser.create!(line_user_id: params[:events][0][:source][:userId])
+            end
             message = {
               "type": 'text',
               "text": "【該当の番号を、入力してメッセージで送信してください】
@@ -52,26 +55,58 @@ class LineBotController < ApplicationController
             }
             client.reply_message(event['replyToken'], message)
           end
-          client.reply_message(event['replyToken'], template) if /5/.match?(event.message['text'])
+          if /5/.match?(event.message['text'])
+            user = LineUser.find_by(line_user_id: params[:events][0][:source][:userId])
+            user.update!(select_type: 5)
+            client.reply_message(event['replyToken'], template)
+          end
+          if /4/.match?(event.message['text'])
+            user = LineUser.find_by(line_user_id: params[:events][0][:source][:userId])
+            user.update!(select_type: 4)
+            client.reply_message(event['replyToken'], template)
+          end
+          if /3/.match?(event.message['text'])
+            user = LineUser.find_by(line_user_id: params[:events][0][:source][:userId])
+            user.update!(select_type: 3)
+            client.reply_message(event['replyToken'], template)
+          end
         when Line::Bot::Event::MessageType::Location
+          current_user = LineUser.find_by(line_user_id: params[:events][0][:source][:userId])
           latitude = event['message']['latitude']
           longitude = event['message']['longitude']
           user_address = Geocoder.search([latitude, longitude])
           user_location = Hospital.create!(name: 'ユーザー現在地', address: user_address.first.address, phone_number: '090',
                                            url: 'url', latitude:, longitude:)
-          near_hospitals = user_location.nearbys(5, units: :km)
-          message = if near_hospitals.empty?
-                      { type: 'text', text: '近くに病院がありません。条件を変えて再検索してください' }
-                    else
-                      {
-                        type: 'flex',
-                        altText: '病院検索の結果です',
-                        contents: set_carousel(near_hospitals)
-                      }
-                    end
+          near_hospitals = user_location.nearbys(5, units: :km).limit(10).all_patients
+          if near_hospitals.empty?
+            message = { type: 'text', text: '近くに病院がありません。条件を変えて再検索してください' }
+          else
+            case current_user.select_type
+            when 5
+              message = {
+                type: 'flex',
+                altText: '病院検索の結果です',
+                contents: set_carousel(near_hospitals)
+              }
+            when 4
+              near_hospitals_childs = near_hospitals.select { |hospital| hospital.target_group.child == 'available' }
+              message = {
+                type: 'flex',
+                altText: '病院検索の結果です',
+                contents: set_carousel(near_hospitals_childs)
+              }
+            when 3
+              near_hospitals_pregnants = near_hospitals.select do |hospital|
+                hospital.target_group.pregnant == 'available'
+              end
+              message = {
+                type: 'flex',
+                altText: '病院検索の結果です',
+                contents: set_carousel(near_hospitals_pregnants)
+              }
+            end
+          end
           client.reply_message(event['replyToken'], message)
-          require 'json'
-          Rails.logger.debug message.to_json
           user_location.destroy!
         end
       end
@@ -94,7 +129,7 @@ class LineBotController < ApplicationController
       "altText": '位置検索中',
       "template": {
         "type": 'buttons',
-        "title": '最寄駅探索探索',
+        "title": '近くの病院を探す',
         "text": '現在の位置を送信しますか？',
         "actions": [
           {

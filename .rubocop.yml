@@ -54,20 +54,23 @@ Metrics/LineLength:
 # メソッドの行数を20行までにする
 Metrics/MethodLength:
   CountComments: false
-  Max: 77
+  Max: 113
 
 # ABC sizeは緩めにする
 Metrics/AbcSize:
-  Max: 75 # default 15
+  Max: 151 # default 15
 
 CyclomaticComplexity:
-  Max: 15
+  Max: 25
 
 PerceivedComplexity:
-  Max: 15
+  Max: 23
 
 Metrics/BlockLength:
-  Max: 70
+  Max: 106
 
 ClassLength:
-  Max: 200
+  Max: 222
+
+Metrics/BlockNesting:
+  Max: 4
